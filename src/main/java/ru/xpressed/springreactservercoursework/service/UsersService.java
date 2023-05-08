@@ -9,7 +9,7 @@ import javax.validation.Valid;
 
 public interface UsersService {
     ResponseEntity<?> getAllUsers();
-    ResponseEntity<?> getUserByID(String username);
+    ResponseEntity<?> getUserByID(String username, String token);
     ResponseEntity<?> getUsers(String surname, String name, String patronymic, String groupName);
 
     ResponseEntity<?> deleteUser(String username);

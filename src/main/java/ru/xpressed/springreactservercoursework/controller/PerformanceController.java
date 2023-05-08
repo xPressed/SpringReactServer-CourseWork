@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -47,8 +48,8 @@ public class PerformanceController {
     @ApiResponse(responseCode = "400", description = "Bad Request (Check Username param)")
     @ApiResponse(responseCode = "403", description = "Forbidden")
     @GetMapping("/user")
-    public ResponseEntity<?> getUserPerformances(@RequestParam("username") String username) {
-        return performanceService.getUserPerformances(username);
+    public ResponseEntity<?> getUserPerformances(@RequestParam("username") String username, @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        return performanceService.getUserPerformances(username, token);
     }
 
     @Operation(summary = "GET Performance by ID")

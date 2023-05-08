@@ -10,7 +10,7 @@ import javax.validation.Valid;
 public interface AttendanceService {
     ResponseEntity<?> addAttendance(@Valid @RequestBody AttendanceDTO attendanceDTO, BindingResult bindingResult);
     ResponseEntity<?> getAllAttendances();
-    ResponseEntity<?> getUserAttendances(String username);
+    ResponseEntity<?> getUserAttendances(String username, String token);
     ResponseEntity<?> getAttendanceByID(Integer id);
     ResponseEntity<?> getAttendances(String date, String enterTime, String exitTime, String username);
     ResponseEntity<?> deleteAttendance(Integer id);

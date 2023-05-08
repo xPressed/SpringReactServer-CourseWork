@@ -1,6 +1,7 @@
 package ru.xpressed.springreactservercoursework.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
@@ -10,18 +11,17 @@ import ru.xpressed.springreactservercoursework.entity.User;
 import ru.xpressed.springreactservercoursework.entity.dto.PerformanceDTO;
 import ru.xpressed.springreactservercoursework.repository.PerformanceRepository;
 import ru.xpressed.springreactservercoursework.repository.UserRepository;
+import ru.xpressed.springreactservercoursework.security.jwt.JwtUtil;
 import ru.xpressed.springreactservercoursework.service.PerformanceService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class PerformanceServiceImpl implements PerformanceService {
     private final PerformanceRepository performanceRepository;
     private final UserRepository userRepository;
+    private final JwtUtil jwtUtil;
 
     private List<PerformanceDTO> rawToDTO(List<Performance> performanceList) {
         List<PerformanceDTO> performanceDTOList = new ArrayList<>();
@@ -58,7 +58,11 @@ public class PerformanceServiceImpl implements PerformanceService {
     }
 
     @Override
-    public ResponseEntity<?> getUserPerformances(String username) {
+    public ResponseEntity<?> getUserPerformances(String username, String token) {
+        if (!Objects.equals(username, jwtUtil.extractUsername(token)) && !Objects.equals(jwtUtil.extractRole(token), "ROLE_ADMIN") && !Objects.equals(jwtUtil.extractRole(token), "ROLE_TEACHER")) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
         User user = userRepository.findById(username).orElse(null);
         if (user == null) {
             return ResponseEntity.ok().body(Map.of("error", "User not found!"));

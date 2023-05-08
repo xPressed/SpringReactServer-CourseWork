@@ -10,7 +10,7 @@ import javax.validation.Valid;
 public interface PerformanceService {
     ResponseEntity<?> addPerformance(@Valid @RequestBody PerformanceDTO performanceDTO, BindingResult bindingResult);
     ResponseEntity<?> getAllPerformances();
-    ResponseEntity<?> getUserPerformances(String username);
+    ResponseEntity<?> getUserPerformances(String username, String token);
     ResponseEntity<?> getPerformanceByID(Integer id);
     ResponseEntity<?> getPerformances(String name, String mark, String year, String username);
     ResponseEntity<?> deletePerformance(Integer id);
