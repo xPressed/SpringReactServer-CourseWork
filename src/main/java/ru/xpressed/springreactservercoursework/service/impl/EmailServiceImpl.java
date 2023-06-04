@@ -16,7 +16,7 @@ public class EmailServiceImpl implements EmailService {
     private final JavaMailSender javaMailSender;
 
     @Value("${mail.address}")
-    private String  address;
+    private String  verifyAddress;
 
     @Override
     public void sendMessage(String address, String body) throws MessagingException {
@@ -26,7 +26,7 @@ public class EmailServiceImpl implements EmailService {
         String msg = "<div style=\"text-align: center\">\n" +
                 "<h2>Spring Table E-Mail Verification</h2>\n" +
                 "<h4>Please, follow the next link!</h4>\n" +
-                "<a href=\"http://" + address + "/verify/" + body + "\">Click Me!</a>\n" +
+                "<a href=\"http://" + verifyAddress + "/verify/" + body + "\">Click Me!</a>\n" +
                 "</div>";
 
         helper.setText(msg, true);
